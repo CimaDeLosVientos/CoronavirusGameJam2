@@ -36,7 +36,7 @@ class Button(sprite.Sprite):
 class ButtonEmail(Button):
     def __init__(self, position, on_click):
         super(ButtonEmail, self).__init__(
-            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+            image = load_image("assets/images/buttons/button_email.png"),
             hover = None,
             position = position,
             on_click = on_click)
@@ -45,7 +45,7 @@ class ButtonEmail(Button):
 class ButtonReview(Button):
     def __init__(self, position, on_click):
         super(ButtonReview, self).__init__(
-            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+            image = load_image("assets/images/buttons/button_review.png"),
             hover = None,
             position = position,
             on_click = on_click)
@@ -55,17 +55,17 @@ class ButtonReview(Button):
 class ButtonBooking(Button):
     def __init__(self, position, on_click):
         super(ButtonBooking, self).__init__(
-            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+            image = load_image("assets/images/buttons/button_booking.png"),
             hover = None,
             position = position,
             on_click = on_click)
         
 
 
-class ButtonX(Button):
+class ButtonUpgrades(Button):
     def __init__(self, position, on_click):
-        super(ButtonX, self).__init__(
-            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+        super(ButtonUpgrades, self).__init__(
+            image = load_image("assets/images/buttons/button_upgrades.png"),
             hover = None,
             position = position,
             on_click = on_click)
@@ -74,9 +74,9 @@ class ButtonX(Button):
 # Email Scene
 
 class ButtonChangeEmail(Button):
-    def __init__(self, position, user_name, email, on_click):
+    def __init__(self, position, user_name, vip, email, on_click):
         super(ButtonChangeEmail, self).__init__(
-            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+            image = load_image("assets/images/buttons/button_change_email_vip.png") if vip else load_image("assets/images/buttons/button_change_email.png"),
             hover = None,
             position = position,
             on_click = on_click)
@@ -93,16 +93,16 @@ class ButtonChangeEmail(Button):
 
 class ButtonAcceptBooking(Button):
     def __init__(self, position, on_click):
-        super(ButtonX, self).__init__(
-            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+        super(ButtonAcceptBooking, self).__init__(
+            image = load_image("assets/images/buttons/button_accept_booking.png"),
             hover = None,
             position = position,
             on_click = on_click)
 
 class ButtonDeclineBooking(Button):
     def __init__(self, position, on_click):
-        super(ButtonX, self).__init__(
-            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+        super(ButtonDeclineBooking, self).__init__(
+            image = load_image("assets/images/buttons/button_decline_booking.png"),
             hover = None,
             position = position,
             on_click = on_click)
@@ -112,7 +112,7 @@ class ButtonDeclineBooking(Button):
 
 class Email(sprite.Sprite):
     def __init__(self, position, text_subject, text_sender, text_body):
-        self.image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE)
+        self.image = load_image("assets/images/buttons/beer.png")
         self.x = position[0]
         self.y = position[1]
         self.rect = self.image.get_rect()
@@ -129,11 +129,11 @@ class Email(sprite.Sprite):
                                  self.y + DISPLACEMENT_EMAIL_TEXT_SENDER[1])
         position_text_body    = (self.x + DISPLACEMENT_EMAIL_TEXT_BODY[0],
                                  self.y + DISPLACEMENT_EMAIL_TEXT_BODY[1])
-        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        image, rect = draw_text(self.text_subject, position_text_subject, size = 25, color = (0, 0, 255))
         screen.blit(image, rect)
-        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        image, rect = draw_text(self.text_sender, position_text_sender, size = 25, color = (0, 0, 255))
         screen.blit(image, rect)
-        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        image, rect = draw_text(self.text_body, position_text_body, size = 25, color = (0, 0, 255))
         screen.blit(image, rect)
 
 
@@ -141,14 +141,13 @@ class Email(sprite.Sprite):
 class Marker(Icon):
     def __init__(self, position):
         super(Marker, self).__init__(
-            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+            image = load_image("assets/images/buttons/beer.png"),
             position = position)
-
 
 
 class Calendar(sprite.Sprite):
     def __init__(self, position):
-        self.image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE)
+        self.image = load_image("assets/images/buttons/beer.png")
         self.x = position[0]
         self.y = position[1]
         self.rect = self.image.get_rect()
@@ -156,14 +155,14 @@ class Calendar(sprite.Sprite):
         self.bookings = [[False]*4]*12
         self.current_month = 0
         self.markeds = [
-            Marker(self.x + DISPLACEMENT_CALENDAR_MARKER_0[0],
-                   self.y + DISPLACEMENT_CALENDAR_MARKER_0[1]),
-            Marker(self.x + DISPLACEMENT_CALENDAR_MARKER_1[0],
-                   self.y + DISPLACEMENT_CALENDAR_MARKER_1[1]),
-            Marker(self.x + DISPLACEMENT_CALENDAR_MARKER_2[0],
-                   self.y + DISPLACEMENT_CALENDAR_MARKER_2[1]),
-            Marker(self.x + DISPLACEMENT_CALENDAR_MARKER_3[0],
-                   self.y + DISPLACEMENT_CALENDAR_MARKER_3[1]),
+            Marker((self.x + DISPLACEMENT_CALENDAR_MARKER_0[0],
+                    self.y + DISPLACEMENT_CALENDAR_MARKER_0[1])),
+            Marker((self.x + DISPLACEMENT_CALENDAR_MARKER_1[0],
+                    self.y + DISPLACEMENT_CALENDAR_MARKER_1[1])),
+            Marker((self.x + DISPLACEMENT_CALENDAR_MARKER_2[0],
+                    self.y + DISPLACEMENT_CALENDAR_MARKER_2[1])),
+            Marker((self.x + DISPLACEMENT_CALENDAR_MARKER_3[0],
+                    self.y + DISPLACEMENT_CALENDAR_MARKER_3[1])),
         ]
 
     def previous_month(self):
@@ -185,14 +184,14 @@ class Calendar(sprite.Sprite):
         screen.blit(image, rect)
 
 
-class ButtonBooking(Button):
+class ButtonCalendarMarker(Button):
     def __init__(self, position, on_click):
-        super(ButtonX, self).__init__(
-            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+        super(ButtonCalendarMarker, self).__init__(
+            image = load_image("assets/images/buttons/beer.png"),
             hover = None,
             position = position,
             on_click = on_click)
 
     def switch(self):
-        self.image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE)
+        self.image = load_image("assets/images/buttons/beer.png")
 

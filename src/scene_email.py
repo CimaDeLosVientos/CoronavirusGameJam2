@@ -3,7 +3,7 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from src.helpers import *
 from src.parameters import *
-from src.ui import ButtonChangeEmail, Email
+from src.ui import ButtonChangeEmail, ButtonAcceptBooking, ButtonDeclineBooking, Email, Calendar, Marker, ButtonCalendarMarker
 
 class SceneEmail(Scene):
     """Representa un escena abstracta del videojuego.
@@ -14,8 +14,7 @@ class SceneEmail(Scene):
  
     def __init__(self):
         self.next = None # no se toca hasta que toca cambiar de escena, entonces el director lo nota y cambia
-        #self.title
-
+        self.background = load_image("assets/images/scenes/email_background.png")
         # Email
         self.emails = [
             Email((650,650), "Quiero LA habitación", "Hannibal", "Pos eso colega, que me des la habitación o lloro"),
@@ -25,8 +24,10 @@ class SceneEmail(Scene):
         self.current_email = self.emails[0]
         self.mouse_state = 1 # Up
         self.buttons = [
-            ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_1, "Juancho", self.emails[0], lambda: self.change_email(0)),
-            ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_2, "Josefa", self.emails[1], lambda: self.change_email(1))
+            ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_1, "Juancho", False, self.emails[0], lambda: self.change_email(0)),
+            ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_2, "Josefa", True, self.emails[1], lambda: self.change_email(1)),
+            ButtonAcceptBooking(LOCATION_BUTTON_ACCEPT_BOOKING, "jaja"),
+            ButtonDeclineBooking(LOCATION_BUTTON_DECLINE_BOOKING, "jwejwe")
         ]
 
         # Calendar
@@ -54,8 +55,8 @@ class SceneEmail(Scene):
  
     def on_draw(self, screen):
         # Clear the screen
-        screen.fill((0, 0, 0)) ## Comprobar si lo puedo quitar porque es poner en blanco y en teoria lo voy a pintar todo
-
+        #screen.fill((0, 0, 0)) ## Comprobar si lo puedo quitar porque es poner en blanco y en teoria lo voy a pintar todo
+        screen.blit(self.background, self.background.get_rect())
         # Buttons
         for button in self.buttons:
             button.on_draw(screen)

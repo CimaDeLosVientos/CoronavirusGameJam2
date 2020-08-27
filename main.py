@@ -3,7 +3,7 @@ from pygame.locals import *
 from src.helpers import *
 
 from src.parameters import *
-from src.scene_office import SceneOffice
+from src.scene_pc import ScenePC
 from src.scene_email import SceneEmail
 
 
@@ -98,8 +98,10 @@ if __name__ == '__main__':
     data = {
     }
     scenes = {
-        "init" : SceneEmail(),
-        "main_menu" : SceneOffice()
+        "init" : ScenePC(),
+        "main_menu" : ScenePC(),
+        "pc" : ScenePC(),
+        "email": SceneEmail()
     }
     
     director.data = data

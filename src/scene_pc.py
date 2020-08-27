@@ -3,9 +3,9 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from src.helpers import *
 from src.parameters import *
-from src.ui import ButtonEmail, ButtonReview ,ButtonBooking, ButtonX
+from src.ui import ButtonEmail, ButtonReview ,ButtonBooking, ButtonUpgrades
 
-class SceneOffice(Scene):
+class ScenePC(Scene):
     """Representa un escena abstracta del videojuego.
  
     Una escena es una parte visible del juego, como una pantalla
@@ -16,12 +16,13 @@ class SceneOffice(Scene):
         self.next = None # no se toca hasta que toca cambiar de escena, entonces el director lo nota y cambia
         #self.title
         self.sound_notification = load_sound("assets/sounds/notification.wav")
+        self.background = load_image("assets/images/scenes/pc_background.png")
         self.mouse_state = 1 # Up
         self.buttons = [
-            ButtonEmail(LOCATION_BUTTON_EMAIL, self.sound_notification.play),
-            ButtonReview(LOCATION_BUTTON_REVIEW, self.sound_notification.play),
-            ButtonBooking(LOCATION_BUTTON_BOOKING, self.sound_notification.play),
-            ButtonX(LOCATION_BUTTON_X, self.sound_notification.play)
+            ButtonEmail(LOCATION_BUTTON_EMAIL, lambda: self.assign_next_scene("email")),
+            ButtonReview(LOCATION_BUTTON_REVIEW, lambda: self.sound_notification.play()),
+            ButtonBooking(LOCATION_BUTTON_BOOKING, lambda: self.sound_notification.play()),
+            ButtonUpgrades(LOCATION_BUTTON_UPGRADES, lambda: self.sound_notification.play())
         ]
 
     def load(self, data):
@@ -46,7 +47,7 @@ class SceneOffice(Scene):
     def on_draw(self, screen):
         # Clear the screen
         screen.fill((0, 0, 0)) ## Comprobar si lo puedo quitar porque es poner en blanco y en teoria lo voy a pintar todo
-
+        screen.blit(self.background, self.background.get_rect())
         # Buttons
         for button in self.buttons:
             button.on_draw(screen)

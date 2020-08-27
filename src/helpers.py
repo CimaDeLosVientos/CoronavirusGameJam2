@@ -65,7 +65,7 @@ def draw_text(text, position, size = 25, color = (0, 0, 0)):
     Returns:
         Font -- Font object paintable
     """
-    typography = font.Font(resource_path("assets/fonts/OpenSans-Regular.ttf"), size)
+    typography = font.Font(resource_path("assets/fonts/segoeui.ttf"), size)
     text_formated = typography.render(text, 1, color)
     text_formated_rect = text_formated.get_rect()
     text_formated_rect.center = position
