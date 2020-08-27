@@ -3,7 +3,7 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from src.helpers import *
 from src.parameters import *
-from src.ui import ButtonChangeEmail, Email ,Email2
+from src.ui import ButtonChangeEmail, Email
 
 class SceneEmail(Scene):
     """Representa un escena abstracta del videojuego.
@@ -15,17 +15,23 @@ class SceneEmail(Scene):
     def __init__(self):
         self.next = None # no se toca hasta que toca cambiar de escena, entonces el director lo nota y cambia
         #self.title
+
+        # Email
         self.emails = [
-            Email((650,650)),
-            Email2((650,650))
+            Email((650,650), "Quiero LA habitación", "Hannibal", "Pos eso colega, que me des la habitación o lloro"),
+            Email((650,750), "Yo también quiero LA habitación", "Hannibal2", "Pos eso colega, que me des la habitación o te mato")
         ]
         
         self.current_email = self.emails[0]
         self.mouse_state = 1 # Up
         self.buttons = [
-            ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_1, lambda: self.change_email(0)),
-            ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_2, lambda: self.change_email(1))
+            ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_1, "Juancho", self.emails[0], lambda: self.change_email(0)),
+            ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_2, "Josefa", self.emails[1], lambda: self.change_email(1))
         ]
+
+        # Calendar
+        self.calendar = Calendar(LOCATION_CALENDAR)
+        self.current_month = 0
 
     def load(self, data):
         pass
@@ -63,3 +69,6 @@ class SceneEmail(Scene):
 
     def change_email(self, index):
         self.current_email = self.emails[index]
+
+    def book(self, week):
+        self.calendar.bookings[self.current_month][week] = not self.calendar.bookings[self.current_month][week]

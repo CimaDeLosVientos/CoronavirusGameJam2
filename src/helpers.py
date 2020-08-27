@@ -48,7 +48,7 @@ def load_sound(file_path):
         raise ImportError
     return sound_file
 
-def draw_text(text, pos_x, pos_y, size = 25, color = (0, 0, 0)):
+def draw_text(text, position, size = 25, color = (0, 0, 0)):
     """
     
     Formats a text for can show it in the game.
@@ -68,8 +68,8 @@ def draw_text(text, pos_x, pos_y, size = 25, color = (0, 0, 0)):
     typography = font.Font(resource_path("assets/fonts/OpenSans-Regular.ttf"), size)
     text_formated = typography.render(text, 1, color)
     text_formated_rect = text_formated.get_rect()
-    text_formated_rect.centerx = pos_x
-    text_formated_rect.centery = pos_y
+    text_formated_rect.center = position
+    #text_formated_rect.centery = pos_y
     
     return text_formated, text_formated_rect
 

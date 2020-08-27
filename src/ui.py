@@ -3,6 +3,19 @@ from pygame.locals import *
 from .helpers import *
 from .parameters import *
 
+
+class Icon(sprite.Sprite):
+    def __init__(self, image, position):
+        sprite.Sprite.__init__(self)
+        self.image = image
+        self.x = position[0]
+        self.y = position[1]
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
+
+    def on_draw(self, screen):
+        screen.blit(self.image, self.rect)
+
 class Button(sprite.Sprite):
     def __init__(self, image, hover, position, on_click):
         sprite.Sprite.__init__(self)
@@ -16,6 +29,9 @@ class Button(sprite.Sprite):
 
     def on_draw(self, screen):
         screen.blit(self.image, self.rect)
+
+
+
 
 class ButtonEmail(Button):
     def __init__(self, position, on_click):
@@ -58,34 +74,125 @@ class ButtonX(Button):
 # Email Scene
 
 class ButtonChangeEmail(Button):
-    def __init__(self, position, on_click):
+    def __init__(self, position, user_name, email, on_click):
         super(ButtonChangeEmail, self).__init__(
+            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+            hover = None,
+            position = position,
+            on_click = on_click)
+        self.user_name = user_name
+        self.email = email
+
+    def on_draw(self, screen):
+        super().on_draw(screen)
+        position = (self.x + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[0],
+                    self.y + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[1])
+        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        screen.blit(image, rect)
+
+
+class ButtonAcceptBooking(Button):
+    def __init__(self, position, on_click):
+        super(ButtonX, self).__init__(
+            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+            hover = None,
+            position = position,
+            on_click = on_click)
+
+class ButtonDeclineBooking(Button):
+    def __init__(self, position, on_click):
+        super(ButtonX, self).__init__(
             image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
             hover = None,
             position = position,
             on_click = on_click)
 
 
-class Email():
+
+
+class Email(sprite.Sprite):
+    def __init__(self, position, text_subject, text_sender, text_body):
+        self.image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE)
+        self.x = position[0]
+        self.y = position[1]
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.x, self.y)
+        self.text_subject = text_subject
+        self.text_sender = text_sender
+        self.text_body = text_body
+
+    def on_draw(self, screen):
+        screen.blit(self.image, self.rect)
+        position_text_subject = (self.x + DISPLACEMENT_EMAIL_TEXT_SUBJECT[0],
+                                 self.y + DISPLACEMENT_EMAIL_TEXT_SUBJECT[1])
+        position_text_sender  = (self.x + DISPLACEMENT_EMAIL_TEXT_SENDER[0],
+                                 self.y + DISPLACEMENT_EMAIL_TEXT_SENDER[1])
+        position_text_body    = (self.x + DISPLACEMENT_EMAIL_TEXT_BODY[0],
+                                 self.y + DISPLACEMENT_EMAIL_TEXT_BODY[1])
+        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        screen.blit(image, rect)
+        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        screen.blit(image, rect)
+        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        screen.blit(image, rect)
+
+
+## Calendar
+class Marker(Icon):
+    def __init__(self, position):
+        super(Marker, self).__init__(
+            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+            position = position)
+
+
+
+class Calendar(sprite.Sprite):
     def __init__(self, position):
         self.image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE)
         self.x = position[0]
         self.y = position[1]
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
+        self.bookings = [[False]*4]*12
+        self.current_month = 0
+        self.markeds = [
+            Marker(self.x + DISPLACEMENT_CALENDAR_MARKER_0[0],
+                   self.y + DISPLACEMENT_CALENDAR_MARKER_0[1]),
+            Marker(self.x + DISPLACEMENT_CALENDAR_MARKER_1[0],
+                   self.y + DISPLACEMENT_CALENDAR_MARKER_1[1]),
+            Marker(self.x + DISPLACEMENT_CALENDAR_MARKER_2[0],
+                   self.y + DISPLACEMENT_CALENDAR_MARKER_2[1]),
+            Marker(self.x + DISPLACEMENT_CALENDAR_MARKER_3[0],
+                   self.y + DISPLACEMENT_CALENDAR_MARKER_3[1]),
+        ]
+
+    def previous_month(self):
+        self.current_month = (self.current_month + 1) % 12
+
+    def next_month(self):
+        self.current_month = (self.current_month - 1) % 12
 
     def on_draw(self, screen):
         screen.blit(self.image, self.rect)
-        # Aqui hay que poner los textos usando posiciones relativas al objeto
+        for mount in self.bookings:
+            for i in range(4):
+                if mount[i]:
+                    self.markeds[i].on_draw(screen)
 
-class Email2():
-    def __init__(self, position):
-        self.image = transform.scale(load_image("assets/images/sprites/steak.png"), OBJECT_SURFACE)
-        self.x = position[0]
-        self.y = position[1]
-        self.rect = self.image.get_rect()
-        self.rect.center = (self.x, self.y)
+        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        screen.blit(image, rect)
+        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        screen.blit(image, rect)
 
-    def on_draw(self, screen):
-        screen.blit(self.image, self.rect)
-        # Aqui hay que poner los textos usando posiciones relativas al objeto
+
+class ButtonBooking(Button):
+    def __init__(self, position, on_click):
+        super(ButtonX, self).__init__(
+            image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE),
+            hover = None,
+            position = position,
+            on_click = on_click)
+
+    def switch(self):
+        self.image = transform.scale(load_image("assets/images/sprites/beer.png"), OBJECT_SURFACE)
+
