@@ -111,10 +111,10 @@ class ButtonDeclineBooking(Button):
 
 
 class Email(sprite.Sprite):
-    def __init__(self, position, text_subject, text_sender, text_body):
-        self.image = load_image("assets/images/buttons/beer.png")
-        self.x = position[0]
-        self.y = position[1]
+    def __init__(self, text_subject, text_sender, text_body):
+        self.image = load_image("assets/images/sprites/email_content.png")
+        self.x = LOCATION_EMAIL_CONTENT[0]
+        self.y = LOCATION_EMAIL_CONTENT[1]
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
         self.text_subject = text_subject
@@ -123,12 +123,12 @@ class Email(sprite.Sprite):
 
     def on_draw(self, screen):
         screen.blit(self.image, self.rect)
-        position_text_subject = (self.x + DISPLACEMENT_EMAIL_TEXT_SUBJECT[0],
-                                 self.y + DISPLACEMENT_EMAIL_TEXT_SUBJECT[1])
-        position_text_sender  = (self.x + DISPLACEMENT_EMAIL_TEXT_SENDER[0],
-                                 self.y + DISPLACEMENT_EMAIL_TEXT_SENDER[1])
-        position_text_body    = (self.x + DISPLACEMENT_EMAIL_TEXT_BODY[0],
-                                 self.y + DISPLACEMENT_EMAIL_TEXT_BODY[1])
+        position_text_subject = (LOCATION_EMAIL_TEXT_SUBJECT[0],
+                                 LOCATION_EMAIL_TEXT_SUBJECT[1])
+        position_text_sender  = (LOCATION_EMAIL_TEXT_SENDER[0],
+                                 LOCATION_EMAIL_TEXT_SENDER[1])
+        position_text_body    = (LOCATION_EMAIL_TEXT_BODY[0],
+                                 LOCATION_EMAIL_TEXT_BODY[1])
         image, rect = draw_text(self.text_subject, position_text_subject, size = 25, color = (0, 0, 255))
         screen.blit(image, rect)
         image, rect = draw_text(self.text_sender, position_text_sender, size = 25, color = (0, 0, 255))
@@ -141,7 +141,7 @@ class Email(sprite.Sprite):
 class Marker(Icon):
     def __init__(self, position):
         super(Marker, self).__init__(
-            image = load_image("assets/images/buttons/beer.png"),
+            image = load_image("assets/images/sprites/marker.png"),
             position = position)
 
 
@@ -187,7 +187,7 @@ class Calendar(sprite.Sprite):
 class ButtonCalendarMarker(Button):
     def __init__(self, position, on_click):
         super(ButtonCalendarMarker, self).__init__(
-            image = load_image("assets/images/buttons/beer.png"),
+            image = load_image("assets/images/sprites/marker.png"),
             hover = None,
             position = position,
             on_click = on_click)

@@ -17,15 +17,15 @@ class SceneEmail(Scene):
         self.background = load_image("assets/images/scenes/email_background.png")
         # Email
         self.emails = [
-            Email((650,650), "Quiero LA habitación", "Hannibal", "Pos eso colega, que me des la habitación o lloro"),
-            Email((650,750), "Yo también quiero LA habitación", "Hannibal2", "Pos eso colega, que me des la habitación o te mato")
+            Email("Quiero LA habitación", "Hannibal", "Pos eso colega, que me des la habitación o lloro"),
+            Email("Yo también quiero LA habitación", "Hannibal2", "Pos eso colega, que me des la habitación o te mato")
         ]
         
         self.current_email = self.emails[0]
         self.mouse_state = 1 # Up
         self.buttons = [
             ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_1, "Juancho", False, self.emails[0], lambda: self.change_email(0)),
-            ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_2, "Josefa", True, self.emails[1], lambda: self.change_email(1)),
+            #ButtonChangeEmail(LOCATION_BUTTON_CHANGE_EMAIL_2, "Josefa", True, self.emails[1], lambda: self.change_email(1)),
             ButtonAcceptBooking(LOCATION_BUTTON_ACCEPT_BOOKING, "jaja"),
             ButtonDeclineBooking(LOCATION_BUTTON_DECLINE_BOOKING, "jwejwe")
         ]

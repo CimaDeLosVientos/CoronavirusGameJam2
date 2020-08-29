@@ -71,7 +71,7 @@ def draw_text(text, position, size = 25, color = (0, 0, 0)):
     typography = font.Font(resource_path("assets/fonts/segoeui.ttf"), size)
     text_formated = typography.render(text, 1, color)
     text_formated_rect = text_formated.get_rect()
-    text_formated_rect.center = position
+    text_formated_rect.topleft = position
     #text_formated_rect.centery = pos_y
     
     return text_formated, text_formated_rect
