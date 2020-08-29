@@ -64,9 +64,16 @@ class Director:
                         self.quit()
                     if event.key == pygame.K_p:
                         if self.fullscream:
-                            self.screen = pygame.display.set_mode([WIDTH, HEIGHT])
+                            if RESOLUTION_1080:
+                                self.screen = pygame.display.set_mode([WIDTH, HEIGHT])
+                            else:
+                                self.screen = pygame.display.set_mode([int(WIDTH / 1.5), int(HEIGHT / 1.5)])
+
                         else:
-                            self.screen = pygame.display.set_mode([WIDTH, HEIGHT], flags = pygame.FULLSCREEN)
+                            if RESOLUTION_1080:
+                                self.screen = pygame.display.set_mode([WIDTH, HEIGHT], flags = pygame.FULLSCREEN)
+                            else:
+                                self.screen = pygame.display.set_mode([int(WIDTH / 1.5), int(HEIGHT / 1.5)], flags = pygame.FULLSCREEN)
                         self.fullscream = not self.fullscream
 
                 # detecta eventos

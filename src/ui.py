@@ -74,14 +74,19 @@ class ButtonUpgrades(Button):
 # Email Scene
 
 class ButtonChangeEmail(Button):
-    def __init__(self, position, user_name, vip, email, on_click):
+    def __init__(self, index, user_name, vip, email, on_click):
         super(ButtonChangeEmail, self).__init__(
             image = load_image("assets/images/buttons/button_change_email_vip.png") if vip else load_image("assets/images/buttons/button_change_email.png"),
             hover = None,
-            position = position,
+            position = LOCATION_BUTTON_CHANGE_EMAIL,
             on_click = on_click)
+        self.index = index
         self.user_name = user_name
         self.email = email
+
+    def change_index(self, new_index):
+        self.index = new_index
+        self.y = LOCATION_BUTTON_CHANGE_EMAIL[1] + self.index * DISPLACEMENT_BUTTON_CHANGE_EMAIL[1]
 
     def on_draw(self, screen):
         super().on_draw(screen)
@@ -92,19 +97,19 @@ class ButtonChangeEmail(Button):
 
 
 class ButtonAcceptBooking(Button):
-    def __init__(self, position, on_click):
+    def __init__(self, on_click):
         super(ButtonAcceptBooking, self).__init__(
             image = load_image("assets/images/buttons/button_accept_booking.png"),
             hover = None,
-            position = position,
+            position = LOCATION_BUTTON_ACCEPT_BOOKING,
             on_click = on_click)
 
 class ButtonDeclineBooking(Button):
-    def __init__(self, position, on_click):
+    def __init__(self, on_click):
         super(ButtonDeclineBooking, self).__init__(
             image = load_image("assets/images/buttons/button_decline_booking.png"),
             hover = None,
-            position = position,
+            position = LOCATION_BUTTON_DECLINE_BOOKING,
             on_click = on_click)
 
 
@@ -137,6 +142,10 @@ class Email(sprite.Sprite):
         screen.blit(image, rect)
 
 
+
+
+
+
 ## Calendar
 class Marker(Icon):
     def __init__(self, position):
@@ -146,23 +155,19 @@ class Marker(Icon):
 
 
 class Calendar(sprite.Sprite):
-    def __init__(self, position):
+    def __init__(self):
         self.image = load_image("assets/images/buttons/beer.png")
-        self.x = position[0]
-        self.y = position[1]
+        self.x = LOCATION_CALENDAR[0]
+        self.y = LOCATION_CALENDAR[1]
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
         self.bookings = [[False]*4]*12
         self.current_month = 0
         self.markeds = [
-            Marker((self.x + DISPLACEMENT_CALENDAR_MARKER_0[0],
-                    self.y + DISPLACEMENT_CALENDAR_MARKER_0[1])),
-            Marker((self.x + DISPLACEMENT_CALENDAR_MARKER_1[0],
-                    self.y + DISPLACEMENT_CALENDAR_MARKER_1[1])),
-            Marker((self.x + DISPLACEMENT_CALENDAR_MARKER_2[0],
-                    self.y + DISPLACEMENT_CALENDAR_MARKER_2[1])),
-            Marker((self.x + DISPLACEMENT_CALENDAR_MARKER_3[0],
-                    self.y + DISPLACEMENT_CALENDAR_MARKER_3[1])),
+            Marker(LOCATION_CALENDAR_MARKER_0),
+            Marker(LOCATION_CALENDAR_MARKER_1),
+            Marker(LOCATION_CALENDAR_MARKER_2),
+            Marker(LOCATION_CALENDAR_MARKER_3)
         ]
 
     def previous_month(self):
@@ -182,6 +187,24 @@ class Calendar(sprite.Sprite):
         screen.blit(image, rect)
         image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
         screen.blit(image, rect)
+
+class ButtonNextMonth(Button):
+    def __init__(self, on_click):
+        super(ButtonNextMonth, self).__init__(
+            image = load_image("assets/images/buttons/button_next_month.png"),
+            hover = None,
+            position = LOCATION_BUTTON_NEXT_MONTH,
+            on_click = on_click)
+
+
+class ButtonPreviousMonth(Button):
+    def __init__(self, on_click):
+        super(ButtonPreviousMonth, self).__init__(
+            image = load_image("assets/images/buttons/button_previous_month.png"),
+            hover = None,
+            position = LOCATION_BUTTON_PREVIOUS_MONTH,
+            on_click = on_click)
+
 
 
 class ButtonCalendarMarker(Button):
