@@ -1,5 +1,5 @@
 import sys, os
-from pygame import image, error, font, mixer
+from pygame import image, error, font, mixer, transform
 from .parameters import *
 
 # Funtions
@@ -16,6 +16,9 @@ def load_image(file_path):
     """
     try:
         image_file = image.load(resource_path(file_path))
+        if not RESOLUTION_1080:
+            image_file = transform.scale(image_file, (int(image_file.get_width() / 1.5),
+                                                             int(image_file.get_height() / 1.5)))
     except error:
         raise ImportError
     return image_file

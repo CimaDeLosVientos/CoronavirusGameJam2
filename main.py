@@ -19,9 +19,13 @@ class Director:
 
     def __init__(self, scenes, data):
         # Display
-        self.screen = pygame.display.set_mode([WIDTH, HEIGHT])
-        #self.screen = pygame.display.set_mode([WIDTH, HEIGHT], flags = pygame.FULLSCREEN)
-
+        self.fullscream = False
+        if RESOLUTION_1080:
+            self.screen = pygame.display.set_mode([WIDTH, HEIGHT])
+            #self.screen = pygame.display.set_mode([WIDTH, HEIGHT], flags = pygame.FULLSCREEN)
+        else:
+            self.screen = pygame.display.set_mode([int(WIDTH / 1.5), int(HEIGHT / 1.5)])
+            #self.screen = pygame.display.set_mode([int(WIDTH / 1.5), int(HEIGHT / 1.5)], flags = pygame.FULLSCREEN)
 
         # Screen name
         pygame.display.set_caption("La Suite")
@@ -58,6 +62,12 @@ class Director:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.quit()
+                    if event.key == pygame.K_p:
+                        if self.fullscream:
+                            self.screen = pygame.display.set_mode([WIDTH, HEIGHT])
+                        else:
+                            self.screen = pygame.display.set_mode([WIDTH, HEIGHT], flags = pygame.FULLSCREEN)
+                        self.fullscream = not self.fullscream
 
                 # detecta eventos
                 self.current_scene.on_event(time, event)
