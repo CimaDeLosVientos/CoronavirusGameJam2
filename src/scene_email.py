@@ -34,8 +34,10 @@ class SceneEmail(Scene):
 
         self.mouse_state = 1 # Up
         self.buttons = [
-            ButtonNextMonth(lambda: self.calendar.next_month()),
-            ButtonPreviousMonth(lambda: self.calendar.previous_month()),
+            ButtonNextMonth(lambda: self.next_month()),
+            ButtonPreviousMonth(lambda: self.previous_month())
+        ]
+        self.buttons_calendar_marker = [
             ButtonCalendarMarker(LOCATION_BUTTON_CALENDAR_MARKER_0, lambda: self.marker_week(0)),
             ButtonCalendarMarker(LOCATION_BUTTON_CALENDAR_MARKER_1, lambda: self.marker_week(1)),
             ButtonCalendarMarker(LOCATION_BUTTON_CALENDAR_MARKER_2, lambda: self.marker_week(2)),
@@ -51,7 +53,8 @@ class SceneEmail(Scene):
         if (mouse_press and self.mouse_state == 1):
             self.mouse_state = 0
         if (not mouse_press and self.mouse_state == 0):
-            for button in self.buttons + self.buttons_emails + self.buttons_answer_emails:
+            for button in (self.buttons + self.buttons_emails +
+                          self.buttons_answer_emails + self.buttons_calendar_marker):
                 if button.rect.collidepoint(mouse_pos):
                     #import pdb; pdb.set_trace()
                     button.on_click()
@@ -72,8 +75,10 @@ class SceneEmail(Scene):
             self.buttons_answer_emails[0].on_draw(screen)
             self.buttons_answer_emails[1].on_draw(screen)
 
-        for button in self.buttons + self.buttons_emails:
+        for button in self.buttons + self.buttons_emails + self.buttons_calendar_marker:
             button.on_draw(screen)
+
+        self.calendar.on_draw(screen)
 
     def finish(self, data):
         pass
@@ -104,9 +109,22 @@ class SceneEmail(Scene):
         self.current_email = self.buttons_emails[email_index].email
 
     def marker_week(self, week):
-        self.calendar.bookings[self.current_month][week] = not self.calendar.bookings[self.current_month][week]
+        self.calendar.bookings[self.calendar.current_month][week] = not self.calendar.bookings[self.calendar.current_month][week]
+        self.buttons_calendar_marker[week].switch()
 
 
+    def update_calendar_marker_buttons(self):
+        for i in range(4):
+            state = self.calendar.bookings[self.calendar.current_month][i]
+            self.buttons_calendar_marker[i].switch(state)
+
+    def next_month(self):
+        self.calendar.next_month()
+        self.update_calendar_marker_buttons()
+    
+    def previous_month(self):
+        self.calendar.previous_month()
+        self.update_calendar_marker_buttons()
 
     def accept_booking(self):
         # Añadir a los datos esta reserva

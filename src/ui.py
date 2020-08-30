@@ -30,9 +30,29 @@ class Button(sprite.Sprite):
     def on_draw(self, screen):
         screen.blit(self.image, self.rect)
 
+# Office
+class ButtonPC(Button):
+    def __init__(self, on_click):
+        super(ButtonPC, self).__init__(
+            image = load_image("assets/images/buttons/button_pc.png"),
+            hover = None,
+            position = LOCATION_BUTTON_PC,
+            on_click = on_click)
+
+
+class ButtonNextWeek(Button):
+    def __init__(self, on_click):
+        super(ButtonBlind, self).__init__(
+            image = load_image("assets/images/buttons/button_next_week.png"),
+            hover = None,
+            position = LOCATION_BUTTON_NEXT_DAY,
+            on_click = on_click)
 
 
 
+
+
+# PC
 class ButtonEmail(Button):
     def __init__(self, position, on_click):
         super(ButtonEmail, self).__init__(
@@ -92,8 +112,8 @@ class ButtonChangeEmail(Button):
 
     def on_draw(self, screen):
         super().on_draw(screen)
-        position = (self.x + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[0] * self.index,
-                    self.y + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[1] * self.index)
+        position = (self.x + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[0],
+                    self.y + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[1])
         image, rect = draw_text(self.user_name, position, size = SIZE_TEXT_USER_NAME, color = (0, 0, 0))
         screen.blit(image, rect)
 
@@ -164,12 +184,15 @@ class Marker(Icon):
 
 class Calendar(sprite.Sprite):
     def __init__(self):
-        self.image = load_image("assets/images/buttons/beer.png")
+        self.images = [load_image(
+                        "assets/images/sprites/calendar_month_{}.png".format(
+                            i + 1)) for i in range(12)]
+        self.image = self.images[0]
         self.x = LOCATION_CALENDAR[0]
         self.y = LOCATION_CALENDAR[1]
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
-        self.bookings = [[False]*4]*12
+        self.bookings = [[False for i in range(4)] for ii in range(12)]
         self.current_month = 0
         self.markeds = [
             Marker(LOCATION_CALENDAR_MARKER_0),
@@ -179,15 +202,17 @@ class Calendar(sprite.Sprite):
         ]
 
     def previous_month(self):
-        self.current_month = (self.current_month + 1) % 12
+        self.current_month = (self.current_month - 1) % 12
+        self.image = self.images[self.current_month]
 
     def next_month(self):
-        self.current_month = (self.current_month - 1) % 12
+        self.current_month = (self.current_month + 1) % 12
+        self.image = self.images[self.current_month]
 
     def on_draw(self, screen):
         screen.blit(self.image, self.rect)
         for i in range(4):
-            if self.bookings[current_month][i]:
+            if self.bookings[self.current_month][i]:
                 self.markeds[i].on_draw(screen)
 
 
@@ -213,11 +238,15 @@ class ButtonPreviousMonth(Button):
 class ButtonCalendarMarker(Button):
     def __init__(self, position, on_click):
         super(ButtonCalendarMarker, self).__init__(
-            image = load_image("assets/images/sprites/marker.png"),
+            image = load_image("assets/images/buttons/button_calendar_marker_off.png"),
             hover = None,
             position = position,
             on_click = on_click)
+        self.images = [self.image,
+                       load_image("assets/images/buttons/button_calendar_marker_on.png")]
+        self.state = False
 
-    def switch(self):
-        self.image = load_image("assets/images/buttons/beer.png")
+    def switch(self, target = None):
+        self.state = not self.state if target is None else target
+        self.image = self.images[1] if self.state else self.images[0]
 
