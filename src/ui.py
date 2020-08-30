@@ -81,17 +81,19 @@ class ButtonChangeEmail(Button):
             position = LOCATION_BUTTON_CHANGE_EMAIL,
             on_click = on_click)
         self.index = index
+        self.change_index(self.index)
         self.user_name = user_name
         self.email = email
 
     def change_index(self, new_index):
         self.index = new_index
         self.y = LOCATION_BUTTON_CHANGE_EMAIL[1] + self.index * DISPLACEMENT_BUTTON_CHANGE_EMAIL[1]
+        self.rect.center = (self.x, self.y)
 
     def on_draw(self, screen):
         super().on_draw(screen)
-        position = (self.x + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[0],
-                    self.y + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[1])
+        position = (self.x + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[0] * self.index,
+                    self.y + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[1] * self.index)
         image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
         screen.blit(image, rect)
 
@@ -128,22 +130,28 @@ class Email(sprite.Sprite):
 
     def on_draw(self, screen):
         screen.blit(self.image, self.rect)
-        position_text_subject = (LOCATION_EMAIL_TEXT_SUBJECT[0],
-                                 LOCATION_EMAIL_TEXT_SUBJECT[1])
-        position_text_sender  = (LOCATION_EMAIL_TEXT_SENDER[0],
-                                 LOCATION_EMAIL_TEXT_SENDER[1])
-        position_text_body    = (LOCATION_EMAIL_TEXT_BODY[0],
-                                 LOCATION_EMAIL_TEXT_BODY[1])
-        image, rect = draw_text(self.text_subject, position_text_subject, size = 25, color = (0, 0, 255))
-        screen.blit(image, rect)
-        image, rect = draw_text(self.text_sender, position_text_sender, size = 25, color = (0, 0, 255))
-        screen.blit(image, rect)
-        image, rect = draw_text(self.text_body, position_text_body, size = 25, color = (0, 0, 255))
+        
+        image, rect = draw_text(
+            self.text_subject,
+            LOCATION_EMAIL_TEXT_SUBJECT,
+            size = SIZE_TEXT_SUBJECT,
+            color = (0, 0, 0))
         screen.blit(image, rect)
 
+        
+        image, rect = draw_text(
+            self.text_sender,
+            LOCATION_EMAIL_TEXT_SENDER,
+            size = SIZE_TEXT_SENDER,
+            color = (0, 0, 0))
+        screen.blit(image, rect)
 
-
-
+        image, rect = draw_text(
+            self.text_body,
+            LOCATION_EMAIL_TEXT_BODY,
+            size = SIZE_TEXT_BODY,
+            color = (0, 0, 0))
+        screen.blit(image, rect)
 
 
 ## Calendar
@@ -178,20 +186,15 @@ class Calendar(sprite.Sprite):
 
     def on_draw(self, screen):
         screen.blit(self.image, self.rect)
-        for mount in self.bookings:
-            for i in range(4):
-                if mount[i]:
-                    self.markeds[i].on_draw(screen)
+        for i in range(4):
+            if self.bookings[current_month][i]:
+                self.markeds[i].on_draw(screen)
 
-        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
-        screen.blit(image, rect)
-        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
-        screen.blit(image, rect)
 
 class ButtonNextMonth(Button):
     def __init__(self, on_click):
         super(ButtonNextMonth, self).__init__(
-            image = load_image("assets/images/buttons/button_next_month.png"),
+            image = load_image("assets/images/buttons/button_next_calendar.png"),
             hover = None,
             position = LOCATION_BUTTON_NEXT_MONTH,
             on_click = on_click)
@@ -200,7 +203,7 @@ class ButtonNextMonth(Button):
 class ButtonPreviousMonth(Button):
     def __init__(self, on_click):
         super(ButtonPreviousMonth, self).__init__(
-            image = load_image("assets/images/buttons/button_previous_month.png"),
+            image = load_image("assets/images/buttons/button_previous_calendar.png"),
             hover = None,
             position = LOCATION_BUTTON_PREVIOUS_MONTH,
             on_click = on_click)
