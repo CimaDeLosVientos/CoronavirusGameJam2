@@ -94,7 +94,7 @@ class ButtonChangeEmail(Button):
         super().on_draw(screen)
         position = (self.x + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[0] * self.index,
                     self.y + DISPLACEMENT_NAME_BUTTON_CHANGE_EMAIL[1] * self.index)
-        image, rect = draw_text(self.user_name, position, size = 25, color = (0, 0, 255))
+        image, rect = draw_text(self.user_name, position, size = SIZE_TEXT_USER_NAME, color = (0, 0, 0))
         screen.blit(image, rect)
 
 
