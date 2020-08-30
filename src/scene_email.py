@@ -18,7 +18,7 @@ class SceneEmail(Scene):
 
         # Email
         self.buttons_emails = self.generate_emails()
-        import pdb; pdb.set_trace()
+        #import pdb; pdb.set_trace()
         self.buttons_answer_emails = [
             ButtonAcceptBooking(lambda: self.accept_booking()),
             ButtonDeclineBooking(lambda: self.remove_email())
@@ -53,7 +53,7 @@ class SceneEmail(Scene):
         if (not mouse_press and self.mouse_state == 0):
             for button in self.buttons + self.buttons_emails + self.buttons_answer_emails:
                 if button.rect.collidepoint(mouse_pos):
-                    import pdb; pdb.set_trace()
+                    #import pdb; pdb.set_trace()
                     button.on_click()
             self.mouse_state = 1
 
