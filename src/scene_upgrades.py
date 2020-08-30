@@ -16,7 +16,7 @@ class SceneUpgrades(Scene):
         self.game_master = game_master
         self.next = None # no se toca hasta que toca cambiar de escena, entonces el director lo nota y cambia
         self.music = "assets/music/music.mp3"
-        self.background = load_image("assets/images/scenes/background_upgrades.png")
+        self.background = load_image("assets/images/scenes/background_upgrades2.png")
 
         self.buttons = [
             ButtonClose(LOCATION_BUTTON_CLOSE, lambda: self.assign_next_scene("pc")),

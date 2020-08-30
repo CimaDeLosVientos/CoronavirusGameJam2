@@ -86,6 +86,6 @@ class GameMaster():
             month, week = client.get_next_holiday(self.week)
             self.client_emails.append((client, Email(
                 "Reserva para {} la {}ª de {}".format(
-                    1, week, MONTH_NAMES[month]),
+                    1, week+1, MONTH_NAMES[month]),
                 client.name,
-                (week, MONTH_NAMES[month], client.name))))
+                (week+1, MONTH_NAMES[month], client.name))))

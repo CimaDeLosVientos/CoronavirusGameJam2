@@ -57,7 +57,7 @@ class Client():
         for month in range(current_month+1,12):
             for week in range(4):
                 if self.holidays[month * week]:
-                    return (month, week)
+                    return (month, week + random.randrange(0,3))
         return False
 
     def opine(self, suite_state):

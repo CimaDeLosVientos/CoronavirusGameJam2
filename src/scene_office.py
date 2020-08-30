@@ -14,6 +14,7 @@ class SceneOffice(Scene):
  
     def __init__(self, game_master):
         self.next = None # no se toca hasta que toca cambiar de escena, entonces el director lo nota y cambia
+        self.music = "assets/music/music.mp3"
         self.game_master = game_master
         self.go_out = False
         self.go_in = False

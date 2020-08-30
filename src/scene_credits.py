@@ -10,7 +10,7 @@ class SceneCredits(Scene):
         Scene.__init__(self)
         self.next = None
         self.music = "assets/music/Phillip_Gross_-_02_-_Neon_Twin.mp3"
-        self.background_1 = load_image("assets/images/scenes/background_menu_1.png")
+        self.background_1 = load_image("assets/images/scenes/background_credits.png")
 
         self.buttons = [
             ButtonPlay(lambda: self.assign_next_scene("main_menu"))
