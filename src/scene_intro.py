@@ -11,7 +11,8 @@ class SceneIntro(Scene):
         self.next = None
         self.persiana_sube = True
         self.fade = False
-        self.alpha = 0
+        self.changing = False
+        self.alpha = 255
 
         self.music = "assets/music/Phillip_Gross_-_02_-_Neon_Twin.mp3"
         self.background_persiana = load_image("assets/images/scenes/background_menu_2.png")
@@ -21,8 +22,9 @@ class SceneIntro(Scene):
         self.background_clear = load_image("assets/images/scenes/background_game_clear.png")
 
         self.buttons = [
-            ButtonPlay(lambda: self.assign_next_scene("intro"))
+            ButtonPlay(lambda: self.assign_next_scene())
         ]
+        self.mouse_state = 1 # Up
 
 
 
@@ -51,19 +53,20 @@ class SceneIntro(Scene):
 
 
     def on_update(self, time):
+        #import pdb; pdb.set_trace()
         if self.persiana_sube:
             self.rect_background_persiana.y -= time * NEXT_WEEK_SPEED
-            if self.rect_background_persiana.y <= 0:
+            if self.rect_background_persiana.y <= -self.rect_background_persiana.height:
                 self.persiana_sube = False
                 self.fade = True
         
         if self.fade:
-            self.alpha += 4
-            if self.alpha >= 255:
+            self.alpha -= 3
+            if self.alpha <= 0:
                 self.fade = False
 
         if self.changing:
-            time.sleep(2)
+            tim.sleep(2)
             self.next = "office"
 
 
@@ -77,6 +80,11 @@ class SceneIntro(Scene):
 
         if self.fade:
             screen.blit(self.background_clear, self.background_clear.get_rect())
+            jaja = pygame.Surface((self.background_clear.get_rect().width, self.background_clear.get_rect().height))
+            jaja.fill((0, 0, 0))
+            jaja.set_alpha(self.alpha)
+            screen.blit(jaja, (0,0))
+
             return
 
         if self.changing:
@@ -94,5 +102,5 @@ class SceneIntro(Scene):
     def finish(self, data):
         pass
 
-    def assign_next_scene(self, next_scene):
-        self.next = next_scene
+    def assign_next_scene(self):
+        self.changing = True
