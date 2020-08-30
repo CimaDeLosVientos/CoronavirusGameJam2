@@ -22,8 +22,8 @@ class ScenePC(Scene):
         self.buttons = [
             ButtonEmail(LOCATION_BUTTON_EMAIL, lambda: self.assign_next_scene("email")),
             ButtonReview(LOCATION_BUTTON_REVIEW, lambda: self.sound_notification.play()),
-            ButtonBooking(LOCATION_BUTTON_BOOKING, lambda: self.sound_notification.play()),
-            ButtonUpgrades(LOCATION_BUTTON_UPGRADES, lambda: self.sound_notification.play()),
+            ButtonBooking(LOCATION_BUTTON_BOOKING, lambda: self.assign_next_scene("booking")),
+            ButtonUpgrades(LOCATION_BUTTON_UPGRADES, lambda: self.assign_next_scene("upgrades")),
             ButtonClose(LOCATION_BUTTON_CLOSE, lambda: self.assign_next_scene("office"))
         ]
 

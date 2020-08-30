@@ -11,6 +11,8 @@ from src.main_menu import MainMenu
 from src.scene_intro import SceneIntro
 from src.scene_credits import SceneCredits
 from src.scene_tutorial import SceneTutorial
+from src.scene_booking import SceneBooking
+from src.scene_upgrades import SceneUpgrades
 
 
 
@@ -129,7 +131,9 @@ if __name__ == '__main__':
         "pc" : ScenePC(game_master),
         "email": SceneEmail(game_master),
         "credits" : SceneCredits(),
-        "tutorial" : SceneTutorial()
+        "tutorial" : SceneTutorial(),
+        "booking" : SceneBooking(game_master),
+        "upgrades" : SceneUpgrades(game_master)
     }
     
     director.data = data
