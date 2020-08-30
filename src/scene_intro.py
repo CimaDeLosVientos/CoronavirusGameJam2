@@ -30,10 +30,7 @@ class SceneIntro(Scene):
 
 
     def load(self, data):
-        self.__init__()
-        if not pygame.mixer.music.get_busy():
-            load_music(self.music)
-            pygame.mixer.music.play(-1)
+        self.next = None
 
 
 
@@ -61,12 +58,11 @@ class SceneIntro(Scene):
                 self.fade = True
         
         if self.fade:
-            self.alpha -= 3
+            self.alpha -= 4
             if self.alpha <= 0:
                 self.fade = False
 
         if self.changing:
-            tim.sleep(2)
             self.next = "office"
 
 
@@ -100,7 +96,7 @@ class SceneIntro(Scene):
 
 
     def finish(self, data):
-        pass
+        tim.sleep(3)
 
     def assign_next_scene(self):
         self.changing = True

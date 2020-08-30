@@ -24,10 +24,7 @@ class MainMenu(Scene):
 
 
     def load(self, data):
-        self.__init__()
-        if not pygame.mixer.music.get_busy():
-            load_music(self.music)
-            pygame.mixer.music.play(-1)
+        self.next = None
 
 
     def on_event(self, time, event):

@@ -16,28 +16,29 @@ class SceneEmail(Scene):
         self.game_master = game_master
         self.next = None # no se toca hasta que toca cambiar de escena, entonces el director lo nota y cambia
         self.background = load_image("assets/images/scenes/email_background.png")
-
+        self.update_week = -1
         # Email
         self.buttons_emails = self.generate_emails()
-        #import pdb; pdb.set_trace()
         self.buttons_answer_emails = [
             ButtonAcceptBooking(lambda: self.accept_booking()),
             ButtonDeclineBooking(lambda: self.remove_email())
         ]
         
-        self.current_email = None # index
+        self.current_email = None # Object
+        self.current_email_index = None
 
         # Calendar
         self.calendar = Calendar()
-        self.current_month = 0
 
 
 
         self.mouse_state = 1 # Up
         self.buttons = [
             ButtonNextMonth(lambda: self.next_month()),
-            ButtonPreviousMonth(lambda: self.previous_month())
+            ButtonPreviousMonth(lambda: self.previous_month()),
+            ButtonClose(LOCATION_BUTTON_CLOSE, lambda: self.assign_next_scene("pc"))
         ]
+
         self.buttons_calendar_marker = [
             ButtonCalendarMarker(LOCATION_BUTTON_CALENDAR_MARKER_0, lambda: self.marker_week(0)),
             ButtonCalendarMarker(LOCATION_BUTTON_CALENDAR_MARKER_1, lambda: self.marker_week(1)),
@@ -46,7 +47,15 @@ class SceneEmail(Scene):
         ]
 
     def load(self, data):
-        pass
+        self.next = None
+        self.current_email_index = None
+        self.current_email = None
+        self.calendar.set_month = int(self.game_master.week / 4)
+        print("jaja",self.calendar.set_month)
+        if self.update_week == self.game_master.week:
+            return
+        self.buttons_emails = self.generate_emails()
+        self.update_week = self.game_master.week
 
     def on_event(self, time, event):
         mouse_press = pygame.mouse.get_pressed()[0]
@@ -54,11 +63,13 @@ class SceneEmail(Scene):
         if (mouse_press and self.mouse_state == 1):
             self.mouse_state = 0
         if (not mouse_press and self.mouse_state == 0):
-            for button in (self.buttons + self.buttons_emails +
-                          self.buttons_answer_emails + self.buttons_calendar_marker):
+            for button in (self.buttons + self.buttons_answer_emails
+                           + self.buttons_calendar_marker):
                 if button.rect.collidepoint(mouse_pos):
-                    #import pdb; pdb.set_trace()
                     button.on_click()
+            for button in self.buttons_emails:
+                if button.rect.collidepoint(mouse_pos):
+                    self.change_email(button.index)
             self.mouse_state = 1
 
 
@@ -90,24 +101,19 @@ class SceneEmail(Scene):
 
     def generate_emails(self):
         buttons = []
-        # Ver que pollos quieren reservar
-        # if pollo.booking:
-        #     email = Email(Texto, texto, texto)
-        #     buttons.append(ButtonChangeEmail(index,
-        #                   pollo.name,
-        #                   pollo.vip,
-        #                   lambda: self.change_email(index)),
-        self.emails = [
-            Email("Quiero LA habitación", "Hannibal", "Pos eso colega, que me des la habitación o lloro"),
-            Email("Yo también quiero LA habitación", "Hannibal2", "Pos eso colega, que me des la habitación o te mato")
-        ]
-        buttons.append(ButtonChangeEmail(0, "Juanchooooooooooooooooooooo", True, self.emails[0], lambda: self.change_email(0))),
-        buttons.append(ButtonChangeEmail(1, "Josefaaaaaaaaaaaaaaaaaaaaaaa", True, self.emails[1], lambda: self.change_email(1)))
-        random.shuffle(buttons)
-        return buttons[:min(len(buttons), MAX_EMAILS)]
+        index = 0
+        for client, email in self.game_master.client_emails:
+            buttons.append(ButtonChangeEmail(index,
+                           client,
+                           email,
+                           None))  # Problems with references
+            index += 1
+
+        return buttons
 
     def change_email(self, email_index):
         self.current_email = self.buttons_emails[email_index].email
+        self.current_email_index = email_index
 
     def marker_week(self, week):
         self.calendar.bookings[self.calendar.current_month][week] = not self.calendar.bookings[self.calendar.current_month][week]
@@ -128,11 +134,11 @@ class SceneEmail(Scene):
         self.update_calendar_marker_buttons()
 
     def accept_booking(self):
-        # Añadir a los datos esta reserva
-        self.remove_email(self.current_email)
+        self.game_master.accept_booking(self.buttons_emails[self.current_email_index].client)
+        self.remove_email()
 
     def remove_email(self):
-        self.buttons_emails.pop(self.current_email)
+        self.buttons_emails.pop(self.current_email_index)
         i = 0
         for button_email in self.buttons_emails:
             button_email.index = i

@@ -1,5 +1,6 @@
 from src.parameters import *
 import random
+import pprint
 
 aux_names = NAMES[:]
 
@@ -10,6 +11,8 @@ class Client():
         self.name = name
         self.purchasing_power = purchasing_power
         self.travel_frequency = travel_frequency
+        self.holidays = []
+        self.set_holidays_calendar()
         self.opinion = opinion
         self.minimum_expectation = minimum_expectation
         self.influenceable = influenceable
@@ -20,6 +23,14 @@ class Client():
 
     def set_cotacts(self, contacts):
         self.contacts = contacts
+
+    def set_holidays_calendar(self):
+        self.holidays = []
+        for i in range(12):
+            aux = []
+            for ii in range(4):
+                aux.append(random.random() < self.travel_frequency)
+            self.holidays.append(aux)
 
     def broadcast(self, score):
         for contact in self.contacts:
@@ -34,18 +45,16 @@ class Client():
 
 
     # INSISTIR Y PREPARAR PARA RESERVAS DE VARIASPERSONAS
-    def try_booking(self, month, day):
-        if self.holidays(month, day) and self.opinion >= self.minimum_expectation:
-            return (self.name, self.vip)
-        else:
-            return False
+    def try_booking(self):
+        return True if self.opinion >= self.minimum_expectation else False
 
-    def holidays(self, month, day):
-        selector = random.random()
-        if self.travel_frequency[month][day] < selector:
-            return True
-        else:
-            return False
+    def get_next_holiday(self, week):
+        current_month = int(week / 4)
+        for month in range(current_month+1,12):
+            for week in range(4):
+                if self.holidays[month * week]:
+                    return (month, week)
+        return False
 
     def opine(self, suite_state):
         score = 0
@@ -61,8 +70,8 @@ class Client():
 def create_client():
     name = aux_names.pop()
     purchasing_power = random.randrange(3) # Poco, medio, bastante
-    travel_frequency = [[random.random() for ii in range(4)] for i in range(12)]
-    opinion = random.randrange(50)
+    travel_frequency = random.random()
+    opinion = random.randrange(50,200)
     minimum_expectation = random.randrange(100)
     influenceable = random.randrange(1,3)
     preferences = {}
@@ -72,6 +81,8 @@ def create_client():
         deterioration[element] = random.randrange(30)
     vip = True if random.random() < VIP_PROBABILITY else False
 
-    return Client(name, purchasing_power, travel_frequency,
+    pepe = Client(name, purchasing_power, travel_frequency,
                 opinion, minimum_expectation, influenceable,
                 preferences, deterioration, vip)
+
+    return pepe

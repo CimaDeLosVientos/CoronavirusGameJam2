@@ -19,7 +19,7 @@ class SceneOffice(Scene):
         self.go_in = False
         #self.title
         self.sound_notification = load_sound("assets/sounds/notification.wav")
-        self.background = load_image("assets/images/scenes/pc_background.png")
+        self.background = load_image("assets/images/scenes/background_game_table.png")
         self.mouse_state = 1 # Up
         self.buttons = [
             ButtonPC(lambda: self.assign_next_scene("pc")),
@@ -27,7 +27,7 @@ class SceneOffice(Scene):
         ]
 
     def load(self, data):
-        pass
+        self.next = None
 
     def on_event(self, time, event):
         if self.go_out or self.go_in:

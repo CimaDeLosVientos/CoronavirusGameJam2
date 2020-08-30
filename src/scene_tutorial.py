@@ -21,7 +21,7 @@ class SceneTutorial(Scene):
 
 
     def load(self, data):
-        pass
+        self.next = None
 
 
     def on_event(self, time, event):

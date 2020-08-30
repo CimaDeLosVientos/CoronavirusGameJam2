@@ -3,7 +3,7 @@ import pygame, os, random, time as tim
 from pygame.locals import *
 from src.helpers import *
 from src.parameters import *
-from src.ui import ButtonEmail, ButtonReview ,ButtonBooking, ButtonUpgrades
+from src.ui import ButtonEmail, ButtonReview ,ButtonBooking, ButtonUpgrades, ButtonClose
 
 class ScenePC(Scene):
     """Representa un escena abstracta del videojuego.
@@ -23,11 +23,12 @@ class ScenePC(Scene):
             ButtonEmail(LOCATION_BUTTON_EMAIL, lambda: self.assign_next_scene("email")),
             ButtonReview(LOCATION_BUTTON_REVIEW, lambda: self.sound_notification.play()),
             ButtonBooking(LOCATION_BUTTON_BOOKING, lambda: self.sound_notification.play()),
-            ButtonUpgrades(LOCATION_BUTTON_UPGRADES, lambda: self.sound_notification.play())
+            ButtonUpgrades(LOCATION_BUTTON_UPGRADES, lambda: self.sound_notification.play()),
+            ButtonClose(LOCATION_BUTTON_CLOSE, lambda: self.assign_next_scene("office"))
         ]
 
     def load(self, data):
-        pass
+        self.next = None
 
     def on_event(self, time, event):
         mouse_press = pygame.mouse.get_pressed()[0]

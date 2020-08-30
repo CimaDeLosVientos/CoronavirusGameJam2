@@ -130,18 +130,27 @@ class ButtonUpgrades(Button):
             on_click = on_click)
 
 
+class ButtonClose(Button):
+    def __init__(self, position, on_click):
+        super(ButtonClose, self).__init__(
+            image = load_image("assets/images/buttons/button_close.png"),
+            hover = None,
+            position = position,
+            on_click = on_click)
+
 # Email Scene
 
 class ButtonChangeEmail(Button):
-    def __init__(self, index, user_name, vip, email, on_click):
+    def __init__(self, index, client, email, on_click):
         super(ButtonChangeEmail, self).__init__(
-            image = load_image("assets/images/buttons/button_change_email_vip.png") if vip else load_image("assets/images/buttons/button_change_email.png"),
+            image = load_image("assets/images/buttons/button_change_email_vip.png") if client.vip else load_image("assets/images/buttons/button_change_email.png"),
             hover = None,
             position = LOCATION_BUTTON_CHANGE_EMAIL,
             on_click = on_click)
         self.index = index
         self.change_index(self.index)
-        self.user_name = user_name
+        self.client = client
+        self.user_name = self.client.name
         self.email = email
 
     def change_index(self, new_index):
@@ -186,6 +195,18 @@ class Email(sprite.Sprite):
         self.text_subject = text_subject
         self.text_sender = text_sender
         self.text_body = text_body
+        self.texts_body = [
+        "Buenos días:",
+        " ",
+        "Quisiera reserva La Suite",
+        "la {}ª semana de {} si".format(self.text_body[0] + 1, self.text_body[1]),
+        "fuera posible.",
+        "He oído hablar bien de ella.",
+        " ",
+        "Un cordial saludo {}".format(self.text_body[2])
+        ]
+
+
 
     def on_draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -205,12 +226,15 @@ class Email(sprite.Sprite):
             color = (0, 0, 0))
         screen.blit(image, rect)
 
-        image, rect = draw_text(
-            self.text_body,
-            LOCATION_EMAIL_TEXT_BODY,
-            size = SIZE_TEXT_BODY,
-            color = (0, 0, 0))
-        screen.blit(image, rect)
+
+        for i in range(len(self.texts_body)):
+            image, rect = draw_text(
+                self.texts_body[i],
+                (LOCATION_EMAIL_TEXT_BODY[0],
+                    LOCATION_EMAIL_TEXT_BODY[1] + i * DISPLACEMENT_EMAIL_TEXT_BODY[1]),
+                size = SIZE_TEXT_BODY,
+                color = (0, 0, 0))
+            screen.blit(image, rect)
 
 
 ## Calendar
@@ -239,6 +263,10 @@ class Calendar(sprite.Sprite):
             Marker(LOCATION_CALENDAR_MARKER_2),
             Marker(LOCATION_CALENDAR_MARKER_3)
         ]
+
+    def set_month(self, index):
+        self.current_month = index
+        self.image = self.images[self.current_month]
 
     def previous_month(self):
         self.current_month = (self.current_month - 1) % 12
