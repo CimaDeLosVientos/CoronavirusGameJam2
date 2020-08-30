@@ -29,7 +29,7 @@ class Client():
 
 
     # INSISTIR Y PREPARAR PARA RESERVAS DE VARIASPERSONAS
-    def booking(self, month, day):
+    def try_booking(self, month, day):
         if self.holidays(month, day) and self.opinion >= self.minimum_expectation:
             return (self.name, self.vip)
         else:

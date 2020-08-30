@@ -20,7 +20,7 @@ OBJECT_SURFACE_ICON = (WIDTH_OBJECT_ICON, WIDTH_OBJECT_ICON)
 
 
 
-
+AMOUNT_CLIENTS = 13
 MAX_EMAILS = 9
 #Icons in the coumputer screen for Mail, Reviews, Bookings and Upgrades.
 # Locations buttons
