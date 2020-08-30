@@ -42,11 +42,20 @@ class ButtonPC(Button):
 
 class ButtonNextWeek(Button):
     def __init__(self, on_click):
-        super(ButtonBlind, self).__init__(
+        super(ButtonNextWeek, self).__init__(
             image = load_image("assets/images/buttons/button_next_week.png"),
             hover = None,
-            position = LOCATION_BUTTON_NEXT_DAY,
+            position = LOCATION_BUTTON_NEXT_WEEK,
             on_click = on_click)
+        self.rect.bottom = LOCATION_BUTTON_NEXT_WEEK[1]
+
+    def move(self, direction, time):
+        speed = NEXT_WEEK_SPEED
+        if direction == "down":
+            self.y += time * speed
+        if direction == "up":
+            self.y -= time * speed
+        self.rect.bottom = self.y
 
 
 

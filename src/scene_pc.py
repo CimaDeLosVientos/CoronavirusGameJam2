@@ -12,7 +12,8 @@ class ScenePC(Scene):
     de presentación o menú de opciones. Tiene que crear un objeto
     derivado de esta clase para crear una escena utilizable."""
  
-    def __init__(self):
+    def __init__(self, game_master):
+        self.game_master = game_master
         self.next = None # no se toca hasta que toca cambiar de escena, entonces el director lo nota y cambia
         #self.title
         self.sound_notification = load_sound("assets/sounds/notification.wav")

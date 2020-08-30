@@ -3,6 +3,8 @@ from pygame.locals import *
 from src.helpers import *
 
 from src.parameters import *
+from src.game_master import GameMaster
+from src.scene_office import SceneOffice
 from src.scene_pc import ScenePC
 from src.scene_email import SceneEmail
 
@@ -111,14 +113,15 @@ if __name__ == '__main__':
     data = {}
     director = Director(scenes, data)
     director.presentation_screen("assets/images/presentation_screen.png")
+    game_master = GameMaster()
 
     data = {
     }
     scenes = {
-        "init" : ScenePC(),
-        "main_menu" : ScenePC(),
-        "pc" : ScenePC(),
-        "email": SceneEmail()
+        "init" : SceneOffice(game_master),
+        "main_menu" : SceneOffice(game_master),
+        "pc" : ScenePC(game_master),
+        "email": SceneEmail(game_master)
     }
     
     director.data = data

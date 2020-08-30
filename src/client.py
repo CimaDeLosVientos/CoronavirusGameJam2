@@ -1,3 +1,8 @@
+from src.parameters import *
+import random
+
+aux_names = NAMES[:]
+
 class Client():
     def __init__(self, name, purchasing_power, travel_frequency,
                 opinion, minimum_expectation, influenceable,
@@ -54,17 +59,17 @@ class Client():
 
 
 def create_client():
-    name = NAMES.pop()
+    name = aux_names.pop()
     purchasing_power = random.randrange(3) # Poco, medio, bastante
     travel_frequency = [[random.random() for ii in range(4)] for i in range(12)]
-    opinion = random.range(50)
-    minimum_expectation = random.range(100)
-    influenceable = random.range(1,3)
+    opinion = random.randrange(50)
+    minimum_expectation = random.randrange(100)
+    influenceable = random.randrange(1,3)
     preferences = {}
     deterioration = {}
     for element in ROOM_ELEMENTS:
-        preferences[element] = random.random(1,11)
-        deterioration[element] = random.random(30)
+        preferences[element] = random.randrange(1,11)
+        deterioration[element] = random.randrange(30)
     vip = True if random.random() < VIP_PROBABILITY else False
 
     return Client(name, purchasing_power, travel_frequency,
