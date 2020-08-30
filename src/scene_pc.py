@@ -15,6 +15,7 @@ class ScenePC(Scene):
     def __init__(self, game_master):
         self.game_master = game_master
         self.next = None # no se toca hasta que toca cambiar de escena, entonces el director lo nota y cambia
+        self.music = "assets/music/music.mp3"
         #self.title
         self.sound_notification = load_sound("assets/sounds/notification.wav")
         self.background = load_image("assets/images/scenes/pc_background.png")
@@ -24,10 +25,13 @@ class ScenePC(Scene):
             ButtonReview(LOCATION_BUTTON_REVIEW, lambda: self.sound_notification.play()),
             ButtonBooking(LOCATION_BUTTON_BOOKING, lambda: self.assign_next_scene("booking")),
             ButtonUpgrades(LOCATION_BUTTON_UPGRADES, lambda: self.assign_next_scene("upgrades")),
-            ButtonClose(LOCATION_BUTTON_CLOSE, lambda: self.assign_next_scene("office"))
+            ButtonClose(LOCATION_BUTTON_CLOSE_2, lambda: self.assign_next_scene("office"))
         ]
 
     def load(self, data):
+        if not pygame.mixer.music.get_busy():
+            load_music(self.music)
+            pygame.mixer.music.play(-1) 
         self.next = None
 
     def on_event(self, time, event):

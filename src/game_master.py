@@ -10,6 +10,7 @@ from src.ui import *
 class GameMaster():
     def __init__(self):        
         self.week = 0
+        self.suite = 5
         self.reputation = INITIAL_REPUTATION
         self.money = INITIAL_MONEY
         self.client_emails = []
@@ -58,7 +59,7 @@ class GameMaster():
                 else:
                     score = client[1].opine(0)
                     client[1].broadcast(score)
-                    money = client[1].spend(self.suite.state)
+                    money = client[1].spend(self.suite)
                     # La reseña
                     ocuped = True
                 self.clients_with_booking.remove(client)

@@ -15,6 +15,7 @@ class SceneEmail(Scene):
     def __init__(self, game_master):
         self.game_master = game_master
         self.next = None # no se toca hasta que toca cambiar de escena, entonces el director lo nota y cambia
+        self.music = "assets/music/music.mp3"
         self.background = load_image("assets/images/scenes/email_background.png")
         self.update_week = -1
         # Email
@@ -48,6 +49,9 @@ class SceneEmail(Scene):
 
     def load(self, data):
         self.next = None
+        if not pygame.mixer.music.get_busy():
+            load_music(self.music)
+            pygame.mixer.music.play(-1) 
         self.current_email_index = None
         self.current_email = None
         self.calendar.set_month = int(self.game_master.week / 4)

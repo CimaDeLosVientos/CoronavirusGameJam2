@@ -21,6 +21,10 @@ class Client():
         self.vip = vip
         self.contacts = []
 
+
+        # caca por los lloros
+        self.puntuacion_base = random.randrange(1,3)
+
     def set_cotacts(self, contacts):
         self.contacts = contacts
 
@@ -41,7 +45,7 @@ class Client():
             suite_state[element] = state * self.deterioration[element]
 
     def spend(self, suite_state):
-        pass
+        return random.randrange(1,3) * self.purchasing_power * 200
 
 
     # INSISTIR Y PREPARAR PARA RESERVAS DE VARIASPERSONAS
@@ -57,6 +61,8 @@ class Client():
         return False
 
     def opine(self, suite_state):
+        self.opinion += suite_state * self.puntuacion_base
+        return suite_state * self.puntuacion_base
         score = 0
         for issue, value in suite_state:
             score += self.preferences[issue] * value

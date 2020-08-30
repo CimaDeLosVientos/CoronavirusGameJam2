@@ -1,13 +1,12 @@
 # Display
 MASTER_VOLUMEN = 0.1
-RESOLUTION_1080 = True
+RESOLUTION_1080 = False
 
 WIDTH  = 1920
 HEIGHT = 1080
 
 NEXT_WEEK_SPEED = 0.4
-AMOUNT_CLIENTS = 3
-MAX_EMAILS = 9
+MAX_EMAILS = 4#9
 VIP_PROBABILITY = 0.3
 
 MONTH_NAMES = [
@@ -28,7 +27,10 @@ MONTH_NAMES = [
 INITIAL_REPUTATION = 505
 INITIAL_MONEY = 0
 
-NAMES = ["Pepe", "Florentino", "Josefa", "Tontomás"]
+NAMES = ["Pepe", "Florentino", "Josefa", "Jose VázQuez", "Hideo Kojima",
+        "Alfonso", "Beatriz", "Don Lágrimas", "Mortadelo", "Pepe Gotera",
+        "Mamá"]
+AMOUNT_CLIENTS = len(NAMES)
 ROOM_ELEMENTS = ["Cama", "Puerta", "Ducha"]
 
 DISTANCE_DOWN_BUTTON_NEXT_DAY = HEIGHT # 720
@@ -47,7 +49,7 @@ LOCATION_BUTTON_REVIEW = (1160, 500)  # 720
 LOCATION_BUTTON_BOOKING = (760, 800)  # 720
 LOCATION_BUTTON_UPGRADES = (1160, 795)  # 720
 LOCATION_BUTTON_CLOSE = (1602, 63)  # 720
-LOCATION_BUTTON_CLOSE_2 = (1885, 10)  # 720
+LOCATION_BUTTON_CLOSE_2 = (1885, 21)  # 720
 
 #Buttons of the emails you receive
 LOCATION_BUTTON_CHANGE_EMAIL = (483, 205)  # 720
