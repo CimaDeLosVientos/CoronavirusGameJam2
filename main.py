@@ -7,6 +7,10 @@ from src.game_master import GameMaster
 from src.scene_office import SceneOffice
 from src.scene_pc import ScenePC
 from src.scene_email import SceneEmail
+from src.main_menu import MainMenu
+from src.scene_intro import SceneIntro
+from src.scene_credits import SceneCredits
+from src.scene_tutorial import SceneTutorial
 
 
 
@@ -118,10 +122,14 @@ if __name__ == '__main__':
     data = {
     }
     scenes = {
-        "init" : SceneOffice(game_master),
-        "main_menu" : SceneOffice(game_master),
+        "init" : MainMenu(),
+        "main_menu" : MainMenu(),
+        "intro" : SceneIntro(),
+        "office" : SceneOffice(game_master),
         "pc" : ScenePC(game_master),
-        "email": SceneEmail(game_master)
+        "email": SceneEmail(game_master),
+        "credits" : SceneCredits(),
+        "tutorial" : SceneTutorial()
     }
     
     director.data = data

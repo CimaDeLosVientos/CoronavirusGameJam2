@@ -46,10 +46,8 @@ class SceneOffice(Scene):
 
     def on_update(self, time):
         if self.go_out:
-            print(self.buttons[1].y)
             self.buttons[1].move("down", time)
         if self.go_in:
-            print(self.buttons[1].y)
             self.buttons[1].move("up", time)
 
         if self.buttons[1].y >= DISTANCE_DOWN_BUTTON_NEXT_DAY:

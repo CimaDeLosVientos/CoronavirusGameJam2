@@ -30,6 +30,36 @@ class Button(sprite.Sprite):
     def on_draw(self, screen):
         screen.blit(self.image, self.rect)
 
+# Main menu
+class ButtonPlay(Button):
+    def __init__(self, on_click):
+        super(ButtonPlay, self).__init__(
+            image = load_image("assets/images/buttons/button_play.png"),
+            hover = None,
+            position = LOCATION_BUTTON_PLAY,
+            on_click = on_click)
+
+
+class ButtonCredits(Button):
+    def __init__(self, on_click):
+        super(ButtonCredits, self).__init__(
+            image = load_image("assets/images/buttons/button_credits.png"),
+            hover = None,
+            position = LOCATION_BUTTON_CREDITS,
+            on_click = on_click)
+
+
+class ButtonTutorial(Button):
+    def __init__(self, on_click):
+        super(ButtonTutorial, self).__init__(
+            image = load_image("assets/images/buttons/button_tutorial.png"),
+            hover = None,
+            position = LOCATION_BUTTON_TUTORIAL,
+            on_click = on_click)
+
+
+
+
 # Office
 class ButtonPC(Button):
     def __init__(self, on_click):

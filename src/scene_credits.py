@@ -5,18 +5,15 @@ from src.helpers import *
 from src.parameters import *
 from src.ui import *
 
-class MainMenu(Scene):
+class SceneCredits(Scene):
     def __init__(self):
         Scene.__init__(self)
         self.next = None
         self.music = "assets/music/Phillip_Gross_-_02_-_Neon_Twin.mp3"
         self.background_1 = load_image("assets/images/scenes/background_menu_1.png")
-        self.background_2 = load_image("assets/images/scenes/background_menu_2.png")
 
         self.buttons = [
-            ButtonPlay(lambda: self.assign_next_scene("intro")),
-            ButtonCredits(lambda: self.assign_next_scene("credits")),
-            ButtonTutorial(lambda: self.assign_next_scene("tutorial")),
+            ButtonPlay(lambda: self.assign_next_scene("main_menu"))
         ]
 
 
@@ -24,10 +21,7 @@ class MainMenu(Scene):
 
 
     def load(self, data):
-        self.__init__()
-        if not pygame.mixer.music.get_busy():
-            load_music(self.music)
-            pygame.mixer.music.play(-1)
+        pass
 
 
     def on_event(self, time, event):
@@ -40,13 +34,13 @@ class MainMenu(Scene):
                 if button.rect.collidepoint(mouse_pos):
                     button.on_click()
             self.mouse_state = 1
+
     def on_update(self, time):
         pass
  
     def on_draw(self, screen):
         # Clear the screen
         screen.fill((0, 0, 0)) ## Comprobar si lo puedo quitar porque es poner en blanco y en teoria lo voy a pintar todo
-        screen.blit(self.background_2, self.background_2.get_rect())
         screen.blit(self.background_1, self.background_1.get_rect())
         # Buttons
         for button in self.buttons:
